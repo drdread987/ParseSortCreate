@@ -1,6 +1,0 @@
-place holder text
-
-format will be :
-
-name;id;levelreq
-...
