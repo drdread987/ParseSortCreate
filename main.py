@@ -1,5 +1,5 @@
 # imports
-from os import listdir # used mainly to use the listdir function
+from os import listdir # used in order to see all files in the folder
 
 
 __author__ = "Drdread" # just cuz i guess
