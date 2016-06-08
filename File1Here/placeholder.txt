@@ -1,6 +1,14 @@
+<<<<<<< HEAD
 place holder text
 
 format will be :
 
 name;id;levelreq
+=======
+place holder text
+
+format will be :
+
+name;id;levelreq
+>>>>>>> e40cb17089a52c38b9be8b46b45f9f9cae6f7cb6
 ...
