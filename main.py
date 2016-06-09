@@ -12,8 +12,38 @@ def sql_generator(data):
     pass
 
 
-def sorter(data, vendors):
-    # I need more information here to know how to separate the items to each vendor
+def alphabet_sorter(data):
+    # this will sort the data based alphabetically
+
+    alphabetized_list = []
+
+    for vendor in data:
+        new_list = []
+        all_names = []
+
+        for item in vendor:
+
+            all_names.append(item[0])
+
+        all_names.sort()
+
+        while all_names < len(vendor):
+
+            for name in all_names:
+
+                for item in vendor:
+
+                    if name == item[0]:
+
+                        new_list.append(item)
+
+        alphabetized_list.append(new_list)
+
+
+
+
+def level_sorter(data, vendors):
+    # this splits the data based on levels
     # first part to sort is the levels. I will be splitting levels up to vendors based on how many vendors
     largest_level = 1
     for item in data:
@@ -29,7 +59,15 @@ def sorter(data, vendors):
     extra_levels = largest_level % per_v_whole  # this states how many extra levels after the final division
     #                                          #  will go to the last vendor
 
+    vendor_indi_lists = []
+    for x in range(1,len(vendors)):
+        # this is used to create an empty list for every vendor
+        vendor_indi_lists.append([])
+
     for item in data:
+        # this will sort each item based on level
+        # which vendors gets which levels is decided based on the max level req of the items,
+        #  then divided to each vendor
         use_vendor = len(vendors) - 1
 
         for num in range(0,len(vendors)):
@@ -37,11 +75,13 @@ def sorter(data, vendors):
             check = item[2] - (per_v_whole * (num + 1))
             neg_max = -per_v_whole
 
-            if check > neg_max and check < 0:
+            if 0 > check < neg_max:
 
                 use_vendor = num
 
+        vendor_indi_lists[use_vendor].append(item) # adds the item to the appropriate list
 
+    alphabet_sorter(vendor_indi_lists)
 
 
 def splitter(data, vendors):
@@ -54,7 +94,7 @@ def splitter(data, vendors):
 
         final_list.append([item.split(";")])
 
-    sorter(final_list, vendors)
+    level_sorter(final_list, vendors)
 
 
 def read_file(file, vendors):
