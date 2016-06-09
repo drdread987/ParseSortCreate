@@ -2,7 +2,7 @@
 from os import listdir # used in order to see all files in the folder
 
 
-__author__ = "Drdread" # just cuz i guess
+__author__ = "Drdread"  # just cuz i guess
 
 
 ##################### Functions #######################################################################
@@ -15,31 +15,32 @@ def sql_generator(data):
 def alphabet_sorter(data):
     # this will sort the data based alphabetically
 
-    alphabetized_list = []
+    alphabetized_list = []  # will hold the final alphabetized list
 
-    for vendor in data:
-        new_list = []
-        all_names = []
+    for vendor in data:  # parses through each vendor list in the data passed variable
+        new_list = []  # used to hold the alphabetized names for proper sorting
+        all_names = []  # this will be appended to the alphabetized list for each vendor
 
         for item in vendor:
 
-            all_names.append(item[0])
+            all_names.append(item[0])  # basically extracts the names from the list and appends them to
+            #  all_names list for sorting
 
-        all_names.sort()
+        all_names.sort()  # this call the sort function is python to sort it alphabetically
 
-        while all_names < len(vendor):
+        # this loop is used to place the items in the correct order in the list
+        # it looks to see if an item has the same name as the name in the all_names list then appends it to new_list
+        for name in all_names:
 
-            for name in all_names:
+            for item in vendor:
 
-                for item in vendor:
+                if name == item[0]:
 
-                    if name == item[0]:
+                    new_list.append(item)
 
-                        new_list.append(item)
+        alphabetized_list.append(new_list)  # appends the final vendor list to the alphabetized_list
 
-        alphabetized_list.append(new_list)
-
-
+    sql_generator(alphabetized_list)  # sends the list to the sql generator
 
 
 def level_sorter(data, vendors):
