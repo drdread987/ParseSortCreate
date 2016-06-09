@@ -127,40 +127,46 @@ while enter != "Done":
 
 print("You entered " + str(len(vendor_list)) + " vendor ID's") # prints how many vendor id's the user entered
 
-print("Okay, reading and separating the delimited text data file. Hopefully the field separator is ';' !")
-# this is where the reading process starts
-file_to_read = [] # this is used to check if there are more than one file in the folder
+if len(vendor_list) > 0:
 
-for file in listdir("/File1Here"):
-    # this will add file names to the file_to_read list as long as the end with .csv
-    if file.endswith(".csv") is True:
+    print("Okay, reading and separating the delimited text data file. Hopefully the field separator is ';' !")
+    # this is where the reading process starts
+    file_to_read = [] # this is used to check if there are more than one file in the folder
 
-        file_to_read.append(file)
+    for file in listdir("File1Here/"):
+        # this will add file names to the file_to_read list as long as the end with .csv
+        if file.endswith(".csv") is True:
 
-if len(file_to_read) > 1:
-    # this is triggered when there is more than 1 file in the directory, and will ask which file to use
-    print("You have more than 1 file in the directory!")
-    print("These are your files that you have in the folder")
-    counter = 1
-    for x in file_to_read:
+            file_to_read.append(file)
 
-        print(str(counter) + "-" + x)
-        counter += 1
+    if len(file_to_read) > 1:
+        # this is triggered when there is more than 1 file in the directory, and will ask which file to use
+        print("You have more than 1 file in the directory!")
+        print("These are your files that you have in the folder")
+        counter = 1
+        for x in file_to_read:
 
-    print("Please enter the corresponding number for the file that you want to actually use.")
-    chooser = input()
-    open_file = file_to_read[int(chooser) - 1] # sets the variable to the correct file name
+            print(str(counter) + "-" + x)
+            counter += 1
 
-elif len(file_to_read) == 1:
-    # if there is only one file in the dir then this will set the variable to that file
-    open_file = file_to_read[0]
+        print("Please enter the corresponding number for the file that you want to actually use.")
+        chooser = input()
+        open_file = file_to_read[int(chooser) - 1] # sets the variable to the correct file name
 
-elif len(file_to_read) == 0:
-    # this checks if there is no files that end in .csv in the dir then will not change the open_file variable
-    print("You forgot to put a file in to the folder! Or they do not end in .csv ...")
-    print("Please restart this script after you have put a file in the folder.")
-    input("Enter anything to exit...")
+    elif len(file_to_read) == 1:
+        # if there is only one file in the dir then this will set the variable to that file
+        open_file = file_to_read[0]
 
-if open_file != "":
+    elif len(file_to_read) == 0:
+        # this checks if there is no files that end in .csv in the dir then will not change the open_file variable
+        print("You forgot to put a file in to the folder! Or they do not end in .csv ...")
+        print("Please restart this script after you have put a file in the folder.")
+        input("Enter anything to exit...")
 
-    read_file(open_file, vendor_list)
+    if open_file != "":
+
+        read_file(open_file, vendor_list)
+
+else:
+
+    print("Please rerun the script and enter the vendor ID's")
