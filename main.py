@@ -14,7 +14,34 @@ def sql_generator(data):
 
 def sorter(data, vendors):
     # I need more information here to know how to separate the items to each vendor
-    pass
+    # first part to sort is the levels. I will be splitting levels up to vendors based on how many vendors
+    largest_level = 1
+    for item in data:
+        # this changes the largest_level variable to the actual largest level req in the item list
+        if item[2] > largest_level:
+
+            largest_level = item[2]
+
+    per_v_deci = largest_level / len(vendors)  # this will create the average amount of levels per vendor
+
+    per_v_whole = per_v_deci - (per_v_deci % 1)  # this will make it round down to a whole number
+
+    extra_levels = largest_level % per_v_whole  # this states how many extra levels after the final division
+    #                                          #  will go to the last vendor
+
+    for item in data:
+        use_vendor = len(vendors) - 1
+
+        for num in range(0,len(vendors)):
+
+            check = item[2] - (per_v_whole * (num + 1))
+            neg_max = -per_v_whole
+
+            if check > neg_max and check < 0:
+
+                use_vendor = num
+
+
 
 
 def splitter(data, vendors):
