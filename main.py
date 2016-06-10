@@ -22,7 +22,7 @@ def sql_generator(data,vendors):
         for item in vendor:
             adder = ","
 
-            if counter_2 == len(vendor) - 1 and counter_1 == len(data):
+            if counter_2 == len(vendor) and counter_1 == len(data) - 1:
 
                 adder = " "
 
