@@ -7,12 +7,39 @@ __author__ = "Drdread"  # just cuz i guess
 
 ##################### Functions #######################################################################
 
-def sql_generator(data):
+def sql_generator(data,vendors):
     # will be created once I know for sure how you want it separated ...
-    pass
+    write_file = open("ItemEnter.sql","w+")  # this is the sql file that will be written in to
+    write_file.write("INSERT INTO npc_vendor(entry,item,slot)")
+    write_file.write("\n")
+
+    counter_1 = 0
+    write_file.write("VALUES")
+    for vendor in data:
+
+        vendor_id = vendors[counter_1]
+        counter_2 = 1
+        for item in vendor:
+            adder = ","
+
+            if counter_2 == len(vendor) - 1 and counter_1 == len(data):
+
+                adder = " "
+
+            write_file.write("(" + vendor_id + "," + item[1] + "," + str(counter_2) + ")" + adder + "\n")
+
+            counter_2 += 1
+        counter_1 += 1
 
 
-def alphabet_sorter(data):
+    write_file.close()
+
+    print("Your sql file has been created, enjoy. Press anything to close the script.")
+    input()
+
+
+
+def alphabet_sorter(data,vendors):
     # this will sort the data based alphabetically
 
     alphabetized_list = []  # will hold the final alphabetized list
@@ -40,7 +67,7 @@ def alphabet_sorter(data):
 
         alphabetized_list.append(new_list)  # appends the final vendor list to the alphabetized_list
 
-    sql_generator(alphabetized_list)  # sends the list to the sql generator
+    sql_generator(alphabetized_list,vendors)  # sends the list to the sql generator
 
 
 def level_sorter(data, vendors):
@@ -49,9 +76,10 @@ def level_sorter(data, vendors):
     largest_level = 1
     for item in data:
         # this changes the largest_level variable to the actual largest level req in the item list
-        if item[2] > largest_level:
+        if int(item[2]) > largest_level:
 
-            largest_level = item[2]
+            largest_level = int(item[2])
+
 
     per_v_deci = largest_level / len(vendors)  # this will create the average amount of levels per vendor
 
@@ -61,7 +89,7 @@ def level_sorter(data, vendors):
     #                                          #  will go to the last vendor
 
     vendor_indi_lists = []
-    for x in range(1,len(vendors)):
+    for x in range(0,len(vendors)):
         # this is used to create an empty list for every vendor
         vendor_indi_lists.append([])
 
@@ -73,16 +101,18 @@ def level_sorter(data, vendors):
 
         for num in range(0,len(vendors)):
 
-            check = item[2] - (per_v_whole * (num + 1))
+            check = int(item[2]) - (per_v_whole * (num + 1))
             neg_max = -per_v_whole
 
-            if 0 > check < neg_max:
+            if 0 > check > neg_max:
 
-                use_vendor = num
+                use_vendor = num - 1
+                print(num)
 
+        print(vendor_indi_lists)
         vendor_indi_lists[use_vendor].append(item) # adds the item to the appropriate list
 
-    alphabet_sorter(vendor_indi_lists)
+    alphabet_sorter(vendor_indi_lists,vendors)
 
 
 def splitter(data, vendors):
@@ -91,9 +121,11 @@ def splitter(data, vendors):
     final_list = []
     split_list = data.split("\n")
 
+    del split_list[len(split_list) - 1]
+
     for item in split_list:
 
-        final_list.append([item.split(";")])
+        final_list.append(item.split(";"))
 
     level_sorter(final_list, vendors)
 
@@ -136,7 +168,7 @@ if len(vendor_list) > 0:
     for file in listdir("File1Here/"):
         # this will add file names to the file_to_read list as long as the end with .csv
         if file.endswith(".csv") is True:
-
+            file = "File1Here/" + file
             file_to_read.append(file)
 
     if len(file_to_read) > 1:
