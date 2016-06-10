@@ -107,9 +107,7 @@ def level_sorter(data, vendors):
             if 0 > check > neg_max:
 
                 use_vendor = num - 1
-                print(num)
 
-        print(vendor_indi_lists)
         vendor_indi_lists[use_vendor].append(item) # adds the item to the appropriate list
 
     alphabet_sorter(vendor_indi_lists,vendors)
