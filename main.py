@@ -7,7 +7,7 @@ __author__ = "Drdread"  # just cuz i guess
 
 ##################### Functions #######################################################################
 
-def sql_generator(data,vendors):
+def sql_generator(data,vendors, EC):
     # will be created once I know for sure how you want it separated ...
     write_file = open("ItemEnter.sql","w+")  # this is the sql file that will be written in to
     write_file.write("INSERT INTO npc_vendor(entry,item,slot)")
@@ -26,7 +26,12 @@ def sql_generator(data,vendors):
 
                 adder = " "
 
-            write_file.write("(" + vendor_id + "," + item[1] + "," + str(counter_2) + ")" + adder + "\n")
+            if EC is True:
+
+                write_file.write("(" + vendor_id + "," + item[1] + "," + str(counter_2) + "," + item[1] + ")" + adder
+                                 + "\n")
+            else:
+                write_file.write("(" + vendor_id + "," + item[1] + "," + str(counter_2) + ")" + adder + "\n")
 
             counter_2 += 1
         counter_1 += 1
@@ -39,7 +44,7 @@ def sql_generator(data,vendors):
 
 
 
-def alphabet_sorter(data,vendors):
+def alphabet_sorter(data,vendors, EC):
     # this will sort the data based alphabetically
 
     alphabetized_list = []  # will hold the final alphabetized list
@@ -67,10 +72,10 @@ def alphabet_sorter(data,vendors):
 
         alphabetized_list.append(new_list)  # appends the final vendor list to the alphabetized_list
 
-    sql_generator(alphabetized_list,vendors)  # sends the list to the sql generator
+    sql_generator(alphabetized_list,vendors, EC)  # sends the list to the sql generator
 
 
-def level_sorter(data, vendors):
+def level_sorter(data, vendors, EC):
     # this splits the data based on levels
     # first part to sort is the levels. I will be splitting levels up to vendors based on how many vendors
     largest_level = 1
@@ -110,10 +115,10 @@ def level_sorter(data, vendors):
 
         vendor_indi_lists[use_vendor].append(item) # adds the item to the appropriate list
 
-    alphabet_sorter(vendor_indi_lists,vendors)
+    alphabet_sorter(vendor_indi_lists,vendors, EC)
 
 
-def splitter(data, vendors):
+def splitter(data, vendors, EC):
     """ this will split the file into a list from the \n. Then split each one of those from the ; and pass it to the
      sorting function """
     final_list = []
@@ -125,10 +130,10 @@ def splitter(data, vendors):
 
         final_list.append(item.split(";"))
 
-    level_sorter(final_list, vendors)
+    level_sorter(final_list, vendors, EC)
 
 
-def read_file(file, vendors):
+def read_file(file, vendors, EC):
     # this function will read the file then pass that variable to the splitter function
     # the file should have the columns in the order of [Name, ID, level(if it is sorted by level too)]
     file_read = open(file,"r+") # opens the file for reading capability
@@ -137,7 +142,7 @@ def read_file(file, vendors):
 
     file_read.close() # closes the file ... duh ...
 
-    splitter(data, vendors)
+    splitter(data, vendors, EC)
 
 
 #######################################################################################################
@@ -156,6 +161,16 @@ while enter != "Done":
     enter = input() # takes an input for the vendor id
 
 print("You entered " + str(len(vendor_list)) + " vendor ID's") # prints how many vendor id's the user entered
+
+print("Do you want to use ExtendedCost? Y or N")
+
+yes_no = input()
+extended_cost = False
+
+if yes_no == "Y" or yes_no == "y":
+
+    extended_cost = True
+    print("Okay assuming id in dbc is same as entry id in item_template, unless you tell the coder otherwise")
 
 if len(vendor_list) > 0:
 
@@ -195,7 +210,7 @@ if len(vendor_list) > 0:
 
     if open_file != "":
 
-        read_file(open_file, vendor_list)
+        read_file(open_file, vendor_list, extended_cost)
 
 else:
 
