@@ -26,9 +26,9 @@ def sql_generator(data,vendors, EC):
 
                 adder = " "
 
-            if EC is True:
+            if EC != "n" or EC != "N":
 
-                write_file.write("(" + vendor_id + "," + item[1] + "," + str(counter_2) + "," + item[1] + ")" + adder
+                write_file.write("(" + vendor_id + "," + item[1] + "," + str(counter_2) + "," + EC + ")" + adder
                                  + "\n")
             else:
                 write_file.write("(" + vendor_id + "," + item[1] + "," + str(counter_2) + ")" + adder + "\n")
@@ -162,15 +162,9 @@ while enter != "Done":
 
 print("You entered " + str(len(vendor_list)) + " vendor ID's") # prints how many vendor id's the user entered
 
-print("Do you want to use ExtendedCost? Y or N")
+print("Do you want to use ExtendedCost? Enter N or n if there is not one, or enter the ID for it.")
 
-yes_no = input()
-extended_cost = False
-
-if yes_no == "Y" or yes_no == "y":
-
-    extended_cost = True
-    print("Okay assuming id in dbc is same as entry id in item_template, unless you tell the coder otherwise")
+extended_cost = input()
 
 if len(vendor_list) > 0:
 
