@@ -10,8 +10,7 @@ __author__ = "Drdread"  # just cuz i guess
 def sql_generator(data,vendors, EC):
     # will be created once I know for sure how you want it separated ...
     write_file = open("ItemEnter.sql","w+")  # this is the sql file that will be written in to
-    write_file.write("INSERT INTO npc_vendor(entry,item,slot)")
-    write_file.write("\n")
+
 
     counter_1 = 0
     write_file.write("VALUES")
@@ -28,9 +27,16 @@ def sql_generator(data,vendors, EC):
 
             if EC != "n" or EC != "N":
 
+                write_file.write("INSERT INTO npc_vendor(entry,item,slot,ExtendedCost)")
+                write_file.write("\n")
+
                 write_file.write("(" + vendor_id + "," + item[1] + "," + str(counter_2) + "," + EC + ")" + adder
                                  + "\n")
             else:
+                write_file.write("INSERT INTO npc_vendor(entry,item,slot)")
+                write_file.write("\n")
+
+
                 write_file.write("(" + vendor_id + "," + item[1] + "," + str(counter_2) + ")" + adder + "\n")
 
             counter_2 += 1
